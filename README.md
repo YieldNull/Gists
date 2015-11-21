@@ -1,6 +1,9 @@
 # Gists
 My [gists](https://gist.github.com/jun-kai-xin)
 
+##hexout.c
+[Display memory block via Hexadecimal.](https://gist.github.com/jun-kai-xin/2f0f11e6b8c7d86a7870)
+
 ##shuoshuo.py
 [备份QQ空间说说](https://gist.github.com/jun-kai-xin/f45b4872889ab4deb072)
 
