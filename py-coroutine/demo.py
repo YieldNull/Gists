@@ -2,7 +2,7 @@ import logging
 import random
 import time
 import asyncio
-from cwctp import JobMonitor, Task, TaskStatus, Scheduler
+from cctp import Task, TaskStatus, TaskHandler, JobMonitor, JobScheduler
 
 
 class DemoMonitor(JobMonitor):
@@ -39,16 +39,25 @@ class DemoTask(Task):
 
     async def run(self):
         await asyncio.sleep(1)
+        return self.pid, self.tid, random.randint(0, 10)
+
+
+class DemoHandler(TaskHandler):
+    def on_task_result(self, result):
+        self.logger.info('Task result ' + str(result))
 
 
 if __name__ == '__main__':
     import sys
 
-    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+    logging.basicConfig(
+        format='%(asctime)s [%(name)s] %(levelname)s pid-%(process)d : %(message)s',
+        stream=sys.stdout,
+        level=logging.INFO)
 
     monitor = DemoMonitor()
-    scheduler = Scheduler(4, monitor=monitor)
-    scheduler.start()
+    scheduler = JobScheduler(4, monitor=monitor)
+    scheduler.start(handler_cls=DemoHandler)
 
     tid = 0
     while True:
